@@ -7,10 +7,15 @@
         padding: 0;
         width: 100%;
         height: 100%;
+        overflow: hidden;
       }
       .chart-container {
-        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
         height: 100vh;
+        overflow: auto;
       }
     </style>
   </head>
@@ -23,7 +28,7 @@
     <script>
       var chart;
       d3.csv(
-        'https://raw.githubusercontent.com/lleiguo/gscript/master/planning/final.csv'
+        'https://raw.githubusercontent.com/lleiguo/orgchart/main/final.csv'
       ).then((dataFlattened) => {
         chart = new d3.OrgChart()
           .container('.chart-container')
@@ -34,6 +39,7 @@
           .childrenMargin((d) => 130)
           .compactMarginBetween((d) => 75)
           .compactMarginPair((d) => 80)
+          .initialZoom(0.7) // Add this to see the whole chart
           .linkUpdate(function (d, i, arr) {
             d3.select(this)
               .attr('stroke', (d) =>
@@ -87,6 +93,14 @@
 `;
           })
           .render();
+
+        // Center the chart
+        const container = document.querySelector('.chart-container');
+        const svg = container.querySelector('svg');
+        if (svg) {
+          svg.style.width = '100%';
+          svg.style.height = '100%';
+        }
       });
     </script>
     <a
