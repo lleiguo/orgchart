@@ -1,5 +1,5 @@
 name,area,profileUrl,positionName,id,parentId
-Core Services,Core Services,https://ca.slack-edge.com/E06JMJ05VAR-U08BKNRGUCT-aebed695550d-512,,Core Services,
+Core Services,Core Services,https://ca.slack-edge.com/E06JMJ05VAR-U08BKNRGUCT-aebed695550d-512,Lei Guo,Core Services,
 Platform-API,Platform-API,,,Platform-API,Core Services
 Gary Lucas,Platform-API,https://ca.slack-edge.com/E06JMJ05VAR-U04PMAZF8PL-06050296fe9c-192,Manager,Gary Lucas,Platform-API
 Shixin Chen,Platform-API,https://ca.slack-edge.com/E06JMJ05VAR-UCFD88CDR-7e6cc4472577-512,Senior Developer,Shixin Chen,Gary Lucas
@@ -7,8 +7,7 @@ Shimpei Makimoto,Platform-API,https://ca.slack-edge.com/E06JMJ05VAR-U815PMRDG-90
 Masafumi Koba,Platform-API,https://ca.slack-edge.com/E06JMJ05VAR-U04LKHBRJFM-0e40e4dc37aa-512,Staff Developer,Masafumi Koba,Gary Lucas
 Toshi Yokota,Platform-API,https://ca.slack-edge.com/E06JMJ05VAR-U07TE1YBQMC-76116147d26a-512,Staff Developer,Toshi Yokota,Gary Lucas
 Mitsutaka Mimura,Platform-API,https://ca.slack-edge.com/E06JMJ05VAR-UUD13L11R-cf80274fd098-512,Staff Developer,Mitsutaka Mimura,Gary Lucas
-Plazma,Plazma,,,Plazma,Core Services
-Stefan Antal,Plazma,https://ca.slack-edge.com/E06JMJ05VAR-U05U859KY73-9b368a7b6018-512,Manager,Stefan Antal,Plazma
+Plazma,Plazma,https://ca.slack-edge.com/E06JMJ05VAR-U05U859KY73-9b368a7b6018-512,Stefan Antal,Plazma,Core Services
 Plazma v1,Plazma v1,,,Plazma v1,Plazma
 Min Yu,Plazma,https://ca.slack-edge.com/E06JMJ05VAR-U03JS02PH-8c2cc84eaaf5-512,Principal Developer,Min Yu,Plazma v1
 Yuta Iwama,Plazma,https://ca.slack-edge.com/E06JMJ05VAR-UHW5442GY-9b34c1f7fd97-512,Staff Developer,Yuta Iwama,Plazma v1
