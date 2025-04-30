@@ -34,15 +34,7 @@
         text-overflow: ellipsis;
       }
 
-      /* Style for toggle icon */
-      .toggle-icon {
-        cursor: pointer;
-        transition: transform 0.3s ease;
-      }
 
-      .toggle-icon:hover {
-        opacity: 0.8;
-      }
     </style>
   </head>
   <body>
@@ -54,17 +46,6 @@
     <script>
       var chart;
 
-      // Function to toggle node expansion
-      function toggleNode(element, nodeId, event) {
-        // Prevent event from bubbling up to the node click handler
-        if (event) event.stopPropagation();
-
-        // Get the current node data
-        const nodeData = chart.getNodeById(nodeId);
-
-        // Toggle the expanded state
-        chart.setExpanded(nodeId, !nodeData.data._expanded);
-      }
 
       d3.csv(
         'https://raw.githubusercontent.com/lleiguo/orgchart/main/final.csv'
@@ -111,23 +92,10 @@
                 <div style="color:#ffffff;font-weight:bold;font-size:18px;text-align:center;width:95%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:15px;margin-bottom:6px;">
                   ${d.data.name}
                 </div>
-                <div style="color:#aaaaaa;font-size:13px;text-align:center;width:95%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:${d.children && d.children.length > 0 ? '0' : '20px'};">
+                <div style="color:#aaaaaa;font-size:13px;text-align:center;width:95%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:20px;">
                   ${d.data.positionName}
                 </div>
-                ${d.children && d.children.length > 0 ?
-                  `<div style="display:flex;align-items:center;justify-content:center;margin-top:auto;margin-bottom:10px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right:5px;">
-                      <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="#aaaaaa"/>
-                    </svg>
-                    <span style="color:#aaaaaa;font-size:16px;margin-right:5px;">
-                      ${d.children.length}
-                    </span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="toggle-icon" onclick="toggleNode(this, '${d.id}', event)">
-                      <path d="${state.expanded ? 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' : 'M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'}" fill="#aaaaaa"/>
-                    </svg>
-                  </div>` :
-                  ''
-                }
+
               </div>
             </div>
             `;
