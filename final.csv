@@ -1,12 +1,58 @@
 name,area,profileUrl,positionName,id,parentId
 Core Services,Core Services,,,Core Services,
 Platform-API,Platform-API,,,Platform-API,Core Services
+Gary Lucas,Platform-API,,Manager,Gary Lucas,Platform-API
+Shixin Chen,Platform-API,,Senior Developer,Shixin Chen,Gary Lucas
+Shimpei Makimoto,Platform-API,,Senior Developer,Shimpei Makimoto,Gary Lucas
+Masafumi Koba,Platform-API,,Staff Developer,Masafumi Koba,Gary Lucas
+Toshi Yokota,Platform-API,,Staff Developer,Toshi Yokota,Gary Lucas
+Mitsutaka Mimura,Platform-API,,Staff Developer,Mitsutaka Mimura,Gary Lucas
 Plazma,Plazma,,,Plazma,Core Services
-Worker,Worker,,,Worker,Core Services
+Stefan Antal,Plazma,,Manager,Stefan Antal,Plazma
+Plazma v1,Plazma v1,,,Plazma v1,Plazma
+Min Yu,Plazma,,Principal Developer,Min Yu,Stefan Antal
+Yuta Iwama,Plazma,,Staff Developer,Yuta Iwama,Stefan Antal
+Naoki Takahashi,Plazma,,Principal Developer,Naoki Takahashi,Stefan Antal
+Shohei Okumiya,Plazma,,Staff Developer,Shohei Okumiya,Stefan Antal
+Takako Shima,Plazma,,Senior Developer,Takako Shima,Stefan Antal
+Serhill Himadieiev,Plazma,,Senior Developer,Serhill Himadieiev,Stefan Antal
+Konstantin Bereznyakov,Plazma,,Senior Developer,Konstantin Bereznyakov,Stefan Antal
+Plazma v2,Plazma v2,,,Plazma v2,Plazma
+Keisuke Suzuki,Plazma,,Principal Developer,Keisuke Suzuki,Stefan Antal
+Edd Steel,Plazma,,Principal Developer,Edd Steel,Stefan Antal
+Alvin Wang,Plazma,,Senior Developer,Alvin Wang,Stefan Antal
+Yukihiro Okada,Plazma,,Senior Developer,Yukihiro Okada,Stefan Antal
 Workflow,Workflow,,,Workflow,Core Services
+Minero Aoi,Workflow,,Manager,Minero Aoi,Workflow
+Satoshi Matsumoto,Workflow,,Principal Developer,Satoshi Matsumoto,Minero Aoi
+Ken Iwama,Workflow,,Principal Developer,Ken Iwama,Minero Aoi
+Shota Suzuki,Workflow,,Manager,Shota Suzuki,Minero Aoi
 Frontend,Frontend,,,Frontend,Core Services
+Ivan Petkov,Frontend,,Manager,Ivan Petkov,Frontend
+Tom Walsh,Frontend,,Senior Developer,Tom Walsh,Ivan Petkov
+Gadiza Zerari,Frontend,,Senior Developer,Gadiza Zerari,Ivan Petkov
+Anam Hussain,Frontend,,Senior Developer,Anam Hussain,Ivan Petkov
+Nicholas Suh,Frontend,,Intermediate Developer,Nicholas Suh,Ivan Petkov
+Kay Hardeman,Frontend,,Intermediate Developer,Kay Hardeman,Ivan Petkov
 Integration,Integration,,,Integration,Core Services
-Kwangshin Oh,Platform-API,,Manager,Kwangshin Oh,Platform-API
-Takashi Kurihara,Platform-API,,Staff Developer,Takashi Kurihara,Kwangshin Oh
-You Yamagata,Platform-API,,Staff Developer,You Yamagata,Kwangshin Oh
-Ryo Wada,Platform-API,,Senior Developer,Ryo Wada,Kwangshin Oh
+Connector,Connector,,,Connector,Integration
+Phu,Connector,,Manager,Phu,Connector
+John,Connector,,Deveoper,John,Phu
+Joe,Connector,,Deveoper,Joe,Phu
+Hiep,Connector,,Deveoper,Hiep,Phu
+Tri,Connector,,Deveoper,Tri,Phu
+Hiep,Connector,,Deveoper,Hiep,Phu
+Tram,Connector,,QA,Tram,Phu
+Platform,Platform,,,Platform,Integration
+Trung,Platform,,Manager,Trung,Platform
+Viet,Platform,,Deveoper,Viet,Platform
+Hieu,Platform,,Deveoper,Hieu,Platform
+Son,Platform,,Deveoper,Son,Platform
+Tuan,Platform,,Deveoper,Tuan,Platform
+Tung,Platform,,Deveoper,Trung,Platform
+Worker,Worker,,,Worker,Core Services
+Kwangshin Oh,Worker,,Manager,Kwangshin Oh,Worker
+Roman Shtyk,Worker,,Principal Developer,Roman Shtyk,Kwangshin Oh
+Takashi Kurihara,Worker,,Staff Developer,Takashi Kurihara,Kwangshin Oh
+You Yamagata,Worker,,Staff Developer,You Yamagata,Kwangshin Oh
+Ryo Wada,Worker,,Senior Developer,Ryo Wada,Kwangshin Oh
