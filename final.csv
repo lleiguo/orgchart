@@ -1,10 +1,11 @@
 name,area,profileUrl,positionName,id,parentId
-Platform-API,Platform-API,,,Platform-API,
-Plazma,Plazma,,,Plazma,
-Worker,Worker,,,Worker,
-Workflow,Workflow,,,Workflow,
-Frontend,Frontend,,,Frontend,
-Integration,Integration,,,Integration,
+Core Services,Core Services,,,Core Services,
+Platform-API,Platform-API,,,Platform-API,Core Services
+Plazma,Plazma,,,Plazma,Core Services
+Worker,Worker,,,Worker,Core Services
+Workflow,Workflow,,,Workflow,Core Services
+Frontend,Frontend,,,Frontend,Core Services
+Integration,Integration,,,Integration,Core Services
 Kwangshin Oh,Platform-API,,Manager,Kwangshin Oh,Platform-API
 Takashi Kurihara,Platform-API,,Staff Developer,Takashi Kurihara,Kwangshin Oh
 You Yamagata,Platform-API,,Staff Developer,You Yamagata,Kwangshin Oh
