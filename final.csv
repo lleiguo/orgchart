@@ -1,5 +1,11 @@
 name,area,profileUrl,positionName,id,parentId
 Core Services,Core Services,https://ca.slack-edge.com/E06JMJ05VAR-U08BKNRGUCT-aebed695550d-512,Lei Guo,Core Services,
+Workflow,Workflow,https://ca.slack-edge.com/E06JMJ05VAR-U033TM51AJG-62b51c581f6d-512,Minero Aoi,Workflow,Core Services
+Satoshi Matsumoto,Workflow,https://ca.slack-edge.com/E06JMJ05VAR-U03FJ0Z5AQK-d0f2301a5a62-512,Staff Developer,Satoshi Matsumoto,Workflow
+Ken Iwama,Workflow,https://ca.slack-edge.com/E06JMJ05VAR-U086263KNPR-0230ccc78ee7-512,Senior Developer,Ken Iwama,Workflow
+Shota Suzuki,Workflow,https://ca.slack-edge.com/E06JMJ05VAR-UCFAB7492-6e64bbdb8e8f-512,Senior Developer,Shota Suzuki,Workflow
+Nicholas Suh,Frontend,https://ca.slack-edge.com/E06JMJ05VAR-U043WFTP79T-eccc2de77deb-512,Intermediate Developer,Nicholas Suh,Workflow
+Kay Hardeman,Frontend,https://ca.slack-edge.com/E06JMJ05VAR-U04H0V8U9CN-1e9891f58974-72,Intermediate Developer,Kay Hardeman,Workflow
 Platform-API,Platform-API,https://ca.slack-edge.com/E06JMJ05VAR-U04PMAZF8PL-06050296fe9c-192,Gary Lucas,Platform-API,Core Services
 Shixin Chen,Platform-API,https://ca.slack-edge.com/E06JMJ05VAR-UCFD88CDR-7e6cc4472577-512,Senior Developer,Shixin Chen,Platform-API
 Shimpei Makimoto,Platform-API,https://ca.slack-edge.com/E06JMJ05VAR-U815PMRDG-909042542fcc-512,Senior Developer,Shimpei Makimoto,Platform-API
@@ -24,12 +30,6 @@ Plazma v2,Plazma v2,https://ca.slack-edge.com/E06JMJ05VAR-U7CHXMJA2-49e336ee1958
 Edd Steel,Plazma v2,https://ca.slack-edge.com/E06JMJ05VAR-UBYTBKY9F-9117400ab0f5-512,Principal Developer,Edd Steel,Plazma v2
 Yukihiro Okada,Plazma v2,https://ca.slack-edge.com/E06JMJ05VAR-UHH6N280M-088cf40c6d98-512,Senior Developer,Yukihiro Okada,Plazma v2
 Yuta Iwama,Plazma v2,https://ca.slack-edge.com/E06JMJ05VAR-UHW5442GY-9b34c1f7fd97-512,Staff Developer,Yuta Iwama,Plazma v2
-Workflow,Workflow,https://ca.slack-edge.com/E06JMJ05VAR-U033TM51AJG-62b51c581f6d-512,Minero Aoi,Workflow,Core Services
-Satoshi Matsumoto,Workflow,https://ca.slack-edge.com/E06JMJ05VAR-U03FJ0Z5AQK-d0f2301a5a62-512,Staff Developer,Satoshi Matsumoto,Workflow
-Ken Iwama,Workflow,https://ca.slack-edge.com/E06JMJ05VAR-U086263KNPR-0230ccc78ee7-512,Senior Developer,Ken Iwama,Workflow
-Shota Suzuki,Workflow,https://ca.slack-edge.com/E06JMJ05VAR-UCFAB7492-6e64bbdb8e8f-512,Senior Developer,Shota Suzuki,Workflow
-Nicholas Suh,Frontend,https://ca.slack-edge.com/E06JMJ05VAR-U043WFTP79T-eccc2de77deb-512,Intermediate Developer,Nicholas Suh,Workflow
-Kay Hardeman,Frontend,https://ca.slack-edge.com/E06JMJ05VAR-U04H0V8U9CN-1e9891f58974-72,Intermediate Developer,Kay Hardeman,Workflow
 Frontend,Frontend,https://ca.slack-edge.com/E06JMJ05VAR-U06324ZF9SB-9808e9f08827-512,Ivan Petkov,Frontend,Core Services
 Anam Hussain,Frontend,https://ca.slack-edge.com/E06JMJ05VAR-U02RDP6LVAS-c4e930096648-512,Senior Developer,Anam Hussain,Frontend
 Integration,Integration,https://ca.slack-edge.com/E06JMJ05VAR-U513Z59HC-1b44977d8cd5-512,Kiet Do,Integration,Core Services
