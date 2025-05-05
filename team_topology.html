@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Team Topology Diagram</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #1e1e1e;
+      font-family: Arial, sans-serif;
+    }
+    .chart-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: auto;
+      text-align: center; /* Center the core services box */
+    }
+
+    /* Team node styles */
+    .team-node {
+      position: relative;
+      width: 160px;
+      height: 70px;
+      border-radius: 10px;
+      margin: 10px 5px;
+      box-sizing: border-box;
+      display: inline-block;
+      vertical-align: top;
+      text-align: center;
+      cursor: move; /* Show move cursor */
+      user-select: none; /* Prevent text selection during drag */
+      z-index: 10; /* Ensure nodes are above arrows */
+    }
+
+    .team-name {
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 15px;
+      padding: 0 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .team-type {
+      color: #eeeeee;
+      font-size: 12px;
+      padding: 0 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Team type colors */
+    .stream-aligned {
+      background-color: rgba(76, 175, 80, 0.2);
+      border: 2px solid #2e7d32;
+    }
+
+    .platform {
+      background-color: rgba(33, 150, 243, 0.2);
+      border: 2px solid #0d47a1;
+    }
+
+    .enabling {
+      background-color: rgba(255, 152, 0, 0.2);
+      border: 2px solid #e65100;
+    }
+
+    .complicated-subsystem {
+      background-color: rgba(156, 39, 176, 0.2);
+      border: 2px solid #4a148c;
+    }
+
+    /* SVG arrows are styled inline */
+
+    /* Team sections */
+    .team-section {
+      margin: 5px 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.05);
+      text-align: center;
+      width: auto;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .section-title {
+      color: white;
+      font-size: 18px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 5px;
+    }
+
+    /* Team container */
+    .teams-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 auto;
+      min-height: 90px; /* Ensure consistent height even when empty */
+      /* Width will be set dynamically based on content */
+    }
+  </style>
+</head>
+<body>
+  <div class="chart-container">
+    <!-- Core Services Platform Box -->
+    <div id="core-services-box" style="border: 3px solid #6a8af7; border-radius: 15px; padding: 20px; margin: 20px auto; background-color: rgba(63, 81, 181, 0.1); width: auto; display: inline-block;">
+      <!-- Core Services Platform Title -->
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="color: white; font-size: 20px; margin: 0;">Core Services Platform</h2>
+      </div>
+
+      <!-- Team Sections -->
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <!-- Stream-aligned Teams Section -->
+        <div class="team-section">
+          <div id="stream-aligned-teams" class="teams-container"></div>
+        </div>
+
+        <!-- Platform-API Section -->
+        <div class="team-section">
+          <div id="platform-api-teams" class="teams-container"></div>
+        </div>
+
+        <!-- Platform Teams Section -->
+        <div class="team-section">
+          <div id="platform-teams" class="teams-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dependency Arrows Container -->
+    <div id="dependency-arrows" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100;"></div>
+  </div>
+
+  <script>
+    // Function to create a team node
+    function createTeamNode(team) {
+      const node = document.createElement('div');
+      node.className = `team-node ${team.type}`;
+      node.id = `team-${team.id}`;
+      node.dataset.id = team.id;
+
+      // Make specific nodes wider
+      if (team.name === "Connector Platform") {
+        node.style.width = "200px"; // Make Connector Platform wider to show full text
+      } else if (team.name === "Platform-API") {
+        node.style.width = "320px"; // Make Platform-API 2 times wider than standard node (160px * 2)
+      } else if (team.name === "Connector") {
+        // Keep standard width for Connector node (160px)
+      }
+
+      const name = document.createElement('div');
+      name.className = 'team-name';
+      name.textContent = team.name;
+
+      const type = document.createElement('div');
+      type.className = 'team-type';
+      type.textContent = `${team.type.charAt(0).toUpperCase() + team.type.slice(1)} Team`;
+
+      node.appendChild(name);
+      node.appendChild(type);
+
+      // Make the node draggable
+      makeDraggable(node);
+
+      return node;
+    }
+
+    // Function to make an element draggable
+    function makeDraggable(element) {
+      // Use interact.js for drag and drop
+      element.addEventListener('mousedown', function(event) {
+        // Prevent default to avoid text selection
+        event.preventDefault();
+
+        // Get initial positions
+        const startX = event.clientX;
+        const startY = event.clientY;
+
+        // Get element's current position
+        const rect = element.getBoundingClientRect();
+        const container = document.querySelector('.chart-container');
+        const containerRect = container.getBoundingClientRect();
+
+        // Calculate offset from mouse to element corner
+        const offsetX = startX - rect.left;
+        const offsetY = startY - rect.top;
+
+        // Set element to absolute positioning if it's not already
+        if (element.style.position !== 'absolute') {
+          element.style.position = 'absolute';
+          element.style.left = (rect.left - containerRect.left + container.scrollLeft) + 'px';
+          element.style.top = (rect.top - containerRect.top + container.scrollTop) + 'px';
+
+          // Move to chart container for free movement
+          container.appendChild(element);
+        }
+
+        // Bring to front
+        element.style.zIndex = '1000';
+
+        // Mouse move handler
+        function onMouseMove(moveEvent) {
+          // Calculate new position
+          const newLeft = moveEvent.clientX - offsetX - containerRect.left + container.scrollLeft;
+          const newTop = moveEvent.clientY - offsetY - containerRect.top + container.scrollTop;
+
+          // Set new position
+          element.style.left = newLeft + 'px';
+          element.style.top = newTop + 'px';
+
+          // Update arrows
+          if (element.dataset && element.dataset.id) {
+            updateDependencyArrows(element.dataset.id);
+          }
+        }
+
+        // Mouse up handler
+        function onMouseUp() {
+          // Remove event listeners
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+
+          // Reset z-index
+          element.style.zIndex = '10';
+
+          // Update all arrows
+          updateAllDependencyArrows();
+        }
+
+        // Add event listeners
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+    }
+
+    // Store all dependency relationships for updating
+    const dependencyRelationships = [];
+
+    // Function to update all dependency arrows
+    function updateAllDependencyArrows() {
+      console.log("Updating all dependency arrows");
+      // Clear existing arrows
+      const arrowsContainer = document.getElementById('dependency-arrows');
+      arrowsContainer.innerHTML = '';
+
+      // Recreate all arrows
+      dependencyRelationships.forEach(dep => {
+        drawDependencyArrow(dep.source, dep.target);
+      });
+    }
+
+    // Function to update arrows connected to a specific node
+    function updateDependencyArrows(nodeId) {
+      console.log(`Updating arrows for node ${nodeId}`);
+      // Find all dependencies involving this node
+      const relatedDeps = dependencyRelationships.filter(dep =>
+        dep.source === nodeId || dep.target === nodeId
+      );
+
+      console.log(`Found ${relatedDeps.length} related dependencies`);
+
+      // Update each related arrow
+      relatedDeps.forEach(dep => {
+        // Remove existing arrow
+        const arrowId = `arrow-${dep.source}-${dep.target}`;
+        const existingArrow = document.getElementById(arrowId);
+        if (existingArrow) {
+          existingArrow.remove();
+        }
+
+        // Draw new arrow
+        drawDependencyArrow(dep.source, dep.target);
+      });
+    }
+
+    // Function to create dependency arrows
+    function createDependencyArrow(sourceId, targetId) {
+      // Store the dependency relationship
+      dependencyRelationships.push({
+        source: sourceId,
+        target: targetId
+      });
+
+      // Draw the arrow
+      drawDependencyArrow(sourceId, targetId);
+    }
+
+    // Function to draw a dependency arrow
+    function drawDependencyArrow(sourceId, targetId) {
+      console.log(`Drawing arrow from ${sourceId} to ${targetId}`);
+      const source = document.getElementById(`team-${sourceId}`);
+      const target = document.getElementById(`team-${targetId}`);
+
+      if (!source || !target) {
+        console.error(`Could not find elements for ${sourceId} or ${targetId}`);
+        return;
+      }
+
+      // Get the chart container for positioning
+      const container = document.querySelector('.chart-container');
+      const arrowsContainer = document.getElementById('dependency-arrows');
+
+      // Get positions relative to the viewport
+      const sourceRect = source.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+
+        // Determine the best edge points for source and target
+        // For vertical alignment, we'll use bottom of source and top of target
+        // For horizontal alignment, we'll use the sides of the nodes
+
+        // Check if source is above target
+        const isSourceAboveTarget = sourceRect.bottom < targetRect.top;
+        // Check if source is to the left of target
+        const isSourceLeftOfTarget = sourceRect.right < targetRect.left;
+        // Check if source is to the right of target
+        const isSourceRightOfTarget = sourceRect.left > targetRect.right;
+
+        let startX, startY, endX, endY;
+
+        // Determine start point (on source node edge)
+        if (isSourceAboveTarget) {
+            // Source is above target - use bottom edge of source
+            startX = sourceRect.left + sourceRect.width / 2 - containerRect.left + container.scrollLeft;
+            startY = sourceRect.bottom - containerRect.top + container.scrollTop;
+        } else if (isSourceLeftOfTarget) {
+            // Source is to the left of target - use right edge of source
+            startX = sourceRect.right - containerRect.left + container.scrollLeft;
+            startY = sourceRect.top + sourceRect.height / 2 - containerRect.top + container.scrollTop;
+        } else if (isSourceRightOfTarget) {
+            // Source is to the right of target - use left edge of source
+            startX = sourceRect.left - containerRect.left + container.scrollLeft;
+            startY = sourceRect.top + sourceRect.height / 2 - containerRect.top + container.scrollTop;
+        } else {
+            // Source is below target - use top edge of source
+            startX = sourceRect.left + sourceRect.width / 2 - containerRect.left + container.scrollLeft;
+            startY = sourceRect.top - containerRect.top + container.scrollTop;
+        }
+
+        // Determine end point (on target node edge)
+        if (isSourceAboveTarget) {
+            // Source is above target - use top edge of target
+            endX = targetRect.left + targetRect.width / 2 - containerRect.left + container.scrollLeft;
+            endY = targetRect.top - containerRect.top + container.scrollTop;
+        } else if (isSourceLeftOfTarget) {
+            // Source is to the left of target - use left edge of target
+            endX = targetRect.left - containerRect.left + container.scrollLeft;
+            endY = targetRect.top + targetRect.height / 2 - containerRect.top + container.scrollTop;
+        } else if (isSourceRightOfTarget) {
+            // Source is to the right of target - use right edge of target
+            endX = targetRect.right - containerRect.left + container.scrollLeft;
+            endY = targetRect.top + targetRect.height / 2 - containerRect.top + container.scrollTop;
+        } else {
+            // Source is below target - use bottom edge of target
+            endX = targetRect.left + targetRect.width / 2 - containerRect.left + container.scrollLeft;
+            endY = targetRect.bottom - containerRect.top + container.scrollTop;
+        }
+
+        console.log(`Arrow from (${startX}, ${startY}) to (${endX}, ${endY})`);
+
+        // Create SVG arrow instead of div for better control
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.id = `arrow-${sourceId}-${targetId}`; // Add ID for easier updating
+        svg.style.position = "absolute";
+        svg.style.top = "0";
+        svg.style.left = "0";
+        svg.style.width = "100%";
+        svg.style.height = "100%";
+        svg.style.pointerEvents = "none";
+        svg.style.zIndex = "50";
+
+        // Get all team nodes to check for intersections
+        const allTeamNodes = document.querySelectorAll('.team-node');
+        const nodeRects = Array.from(allTeamNodes).map(node => {
+          const rect = node.getBoundingClientRect();
+          return {
+            id: node.id,
+            left: rect.left - containerRect.left + container.scrollLeft,
+            right: rect.right - containerRect.left + container.scrollLeft,
+            top: rect.top - containerRect.top + container.scrollTop,
+            bottom: rect.bottom - containerRect.top + container.scrollTop,
+            width: rect.width,
+            height: rect.height
+          };
+        });
+
+        // Create path
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+        let pathData;
+
+        // Calculate distances
+        const verticalDistance = Math.abs(endY - startY);
+        const horizontalDistance = Math.abs(endX - startX);
+
+        // Check for potential node intersections
+        const potentialIntersections = nodeRects.filter(rect => {
+            // Skip source and target nodes
+            if (rect.id === `team-${sourceId}` || rect.id === `team-${targetId}`) {
+                return false;
+            }
+
+            // Only check nodes that might be in the path
+            const minX = Math.min(startX, endX) - 10;
+            const maxX = Math.max(startX, endX) + 10;
+            const minY = Math.min(startY, endY) - 10;
+            const maxY = Math.max(startY, endY) + 10;
+
+            // Check if this node overlaps with the direct line between source and target
+            if (rect.left > maxX || rect.right < minX || rect.top > maxY || rect.bottom < minY) {
+                return false; // Node is outside the bounding box
+            }
+
+            // More precise check for intersection with the direct line
+            // This is a simplified check that works well enough for our purposes
+            const rectCenterX = (rect.left + rect.right) / 2;
+            const rectCenterY = (rect.top + rect.bottom) / 2;
+
+            // Calculate distance from point to line
+            const lineLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+            if (lineLength === 0) return false;
+
+            const distance = Math.abs(
+                (endY - startY) * rectCenterX -
+                (endX - startX) * rectCenterY +
+                endX * startY - endY * startX
+            ) / lineLength;
+
+            // If the distance is less than half the node's width/height, it intersects
+            return distance < Math.min(rect.width, rect.height) / 2;
+        });
+
+        // Always try to use a straight line first if there are no intersections
+        if (potentialIntersections.length === 0) {
+            pathData = `M ${startX} ${startY} L ${endX} ${endY}`;
+        }
+        // If there are intersections, use a simple 2-segment path with one bend
+        else {
+            // Determine the best direction for the bend
+            let bendX, bendY;
+
+            if (isSourceAboveTarget || isSourceLeftOfTarget || isSourceRightOfTarget) {
+                // For these cases, we'll use a horizontal then vertical path
+                bendX = endX;
+                bendY = startY;
+            } else {
+                // For source below target, we'll use a vertical then horizontal path
+                bendX = startX;
+                bendY = endY;
+            }
+
+            // Create a simple path with one bend
+            pathData = `M ${startX} ${startY} L ${bendX} ${bendY} L ${endX} ${endY}`;
+        }
+
+        path.setAttribute("d", pathData);
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", "#2196F3"); // Brighter blue for better visibility
+        path.setAttribute("stroke-width", "2.5");
+        path.setAttribute("stroke-dasharray", "none"); // Solid line for better visibility
+        path.setAttribute("marker-end", "url(#arrowhead)");
+        path.setAttribute("opacity", "1"); // Full opacity
+
+        // Create marker definition for arrowhead
+        const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+        marker.setAttribute("id", "arrowhead");
+        marker.setAttribute("markerWidth", "8");
+        marker.setAttribute("markerHeight", "6");
+        marker.setAttribute("refX", "8");
+        marker.setAttribute("refY", "3");
+        marker.setAttribute("orient", "auto");
+
+        const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        polygon.setAttribute("points", "0 0, 8 3, 0 6");
+        polygon.setAttribute("fill", "#2196F3"); // Same blue as the line
+        polygon.setAttribute("opacity", "1"); // Full opacity to match line
+
+        marker.appendChild(polygon);
+        defs.appendChild(marker);
+        svg.appendChild(defs);
+        svg.appendChild(path);
+
+        // Add the SVG to the container
+        arrowsContainer.appendChild(svg);
+
+        console.log('Arrow created and appended');
+    }
+
+    // Fetch and process the CSV data
+    fetch('team_topology.csv')
+      .then(response => response.text())
+      .then(csvText => {
+        // Parse CSV
+        const lines = csvText.split('\n');
+        const headers = lines[0].split(',');
+
+        const teams = [];
+        const dependencies = [];
+
+        // Process each line
+        for (let i = 1; i < lines.length; i++) {
+          if (!lines[i].trim()) continue;
+
+          const values = lines[i].split(',');
+          const team = {};
+
+          // Map values to properties
+          headers.forEach((header, index) => {
+            team[header] = values[index];
+          });
+
+          // Add to teams array
+          teams.push(team);
+
+          // Process dependencies
+          if (team.dependsOn && team.dependsOn.trim()) {
+            team.dependsOn.split(';').forEach(dep => {
+              if (dep.trim()) {
+                dependencies.push({
+                  source: team.id,
+                  target: dep.trim()
+                });
+              }
+            });
+          }
+        }
+
+        console.log('Teams:', teams);
+        console.log('Dependencies:', dependencies);
+
+        // Render teams by type
+        const streamAlignedContainer = document.getElementById('stream-aligned-teams');
+        const platformApiContainer = document.getElementById('platform-api-teams');
+        const platformContainer = document.getElementById('platform-teams');
+
+        teams.forEach(team => {
+          if (team.type === 'stream-aligned') {
+            streamAlignedContainer.appendChild(createTeamNode(team));
+          } else if (team.type === 'platform' && team.name === 'Platform-API') {
+            // Place Platform-API in its own swimlane
+            platformApiContainer.appendChild(createTeamNode(team));
+          } else if (team.type === 'platform') {
+            // All other platform teams
+            platformContainer.appendChild(createTeamNode(team));
+          }
+        });
+
+        // Render dependency arrows after a delay to ensure all teams are rendered
+        setTimeout(() => {
+          console.log('Rendering dependency arrows:', dependencies);
+          dependencies.forEach(dep => {
+            createDependencyArrow(dep.source, dep.target);
+          });
+
+          // Adjust swimlane widths based on content
+          adjustSwimlanesWidth();
+        }, 1000);
+
+        // Function to adjust swimlane widths based on content
+        function adjustSwimlanesWidth() {
+          const teamSections = document.querySelectorAll('.team-section');
+          let maxNodesInRow = 0;
+
+          // First pass: find the maximum number of nodes in any swimlane
+          teamSections.forEach(section => {
+            const nodes = section.querySelectorAll('.team-node');
+            const nodesCount = nodes.length;
+
+            // Calculate how many nodes we need to accommodate in a row
+            // For small numbers, just use the count, for larger numbers use a reasonable max per row
+            const nodesInRow = Math.min(nodesCount, 4); // Max 4 nodes per row
+
+            if (nodesInRow > maxNodesInRow) {
+              maxNodesInRow = nodesInRow;
+            }
+          });
+
+          // Ensure we have at least 1 node width even for empty swimlanes
+          if (maxNodesInRow === 0) {
+            maxNodesInRow = 1;
+          }
+
+          // Node width (160px) + gap (10px on each side)
+          const nodeWidth = 180; // 160px + 10px gap on each side
+
+          // Calculate the common width for all swimlanes
+          const commonWidth = maxNodesInRow * nodeWidth + 40;
+
+          // Second pass: set all swimlanes to the same width
+          teamSections.forEach(section => {
+            const teamsContainer = section.querySelector('.teams-container');
+            if (teamsContainer) {
+              teamsContainer.style.width = commonWidth + 'px';
+            }
+          });
+
+          // Set the width of the core services box
+          const coreServicesBox = document.getElementById('core-services-box');
+          if (coreServicesBox) {
+            // Width = max nodes * (width + gap) + padding
+            const boxWidth = commonWidth + 40; // Add extra padding
+            coreServicesBox.style.width = boxWidth + 'px';
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error loading or parsing CSV:', error);
+      });
+  </script>
+</body>
+</html>
