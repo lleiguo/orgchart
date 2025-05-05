@@ -473,7 +473,7 @@
 
         path.setAttribute("d", pathData);
         path.setAttribute("fill", "none");
-        path.setAttribute("stroke", "#2196F3"); // Brighter blue for better visibility
+        path.setAttribute("stroke", "#BDBDBD"); // Brighter gray color for lines
         path.setAttribute("stroke-width", "2.5");
         path.setAttribute("stroke-dasharray", "none"); // Solid line for better visibility
         path.setAttribute("marker-end", "url(#arrowhead)");
@@ -491,7 +491,7 @@
 
         const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
         polygon.setAttribute("points", "0 0, 8 3, 0 6");
-        polygon.setAttribute("fill", "#2196F3"); // Same blue as the line
+        polygon.setAttribute("fill", "#BDBDBD"); // Same brighter gray as the line
         polygon.setAttribute("opacity", "1"); // Full opacity to match line
 
         marker.appendChild(polygon);

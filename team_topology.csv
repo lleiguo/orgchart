@@ -1,9 +1,9 @@
 id,name,type,dependsOn,parentId
 core-services,Core Services,root,,
-workflow,Workflow,stream-aligned,platform_api,core-services
 plazma_v1,Plazma v1,stream-aligned,worker;plazma_v2,core-services
+workflow,Workflow,stream-aligned,platform_api,core-services
 connector,Connector,stream-aligned,connector_platform,core-services
-worker,Worker,platform,platform_api,core-services
 plazma_v2,Plazma v2,platform,platform_api;worker,core-services
+worker,Worker,platform,platform_api,core-services
 platform_api,Platform-API,platform,,core-services
 connector_platform,Connector Platform,platform,platform_api,core-services
